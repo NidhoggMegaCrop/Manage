@@ -1,17 +1,17 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
-import {
-  LayoutGrid,
-  FileText,
-  ShoppingCart,
-  Building2,
-  Users,
-  Layers,
-  Download,
-  Plus,
-  Search,
+import { 
+  LayoutGrid, 
+  FileText, 
+  ShoppingCart, 
+  Building2, 
+  Users, 
+  Layers, 
+  Download, 
+  Plus, 
+  Search, 
   ArrowUpRight,
   ArrowDownRight,
-  UserCircle,
+  UserCircle, 
   LogOut,
   X,
   Lock,
@@ -24,10 +24,7 @@ import {
   BarChart3,
   FileDown,
   Settings,
-  Coins,
-  FolderOpen,
-  Tag,
-  Filter
+  Coins
 } from 'lucide-react';
 
 // --- 模拟数据 ---
@@ -53,148 +50,6 @@ const MOCK_DATA = {
     { id: 'U-01', name: '张三', role: '租户管理员', tenant: '阿里巴巴', status: '在线', email: 'zhang@ali.com' },
     { id: 'U-02', name: '李四', role: '普通用户', tenant: '腾讯', status: '离线', email: 'li@tencent.com' },
     { id: 'U-03', name: '王五', role: '普通用户', tenant: '字节跳动', status: '离线', email: 'wang@bytedance.com' },
-  ],
-  bpProjects: [
-    {
-      id: 'BP-001',
-      name: '智能机器人项目',
-      fundingStage: 'A轮',
-      contact: '张三',
-      uploadTime: '2023-10-24 14:20',
-      missingCount: 2,
-      track: '人工智能',
-      scenarios: ['工业自动化', '物流配送', '服务机器人'],
-      tags: ['海外名校', '连续创业', '已有营收'],
-      revenue: '500-1000万',
-      profit: '未盈利',
-      teamBackground: '海外名校'
-    },
-    {
-      id: 'BP-002',
-      name: '新能源车出海计划',
-      fundingStage: 'B轮',
-      contact: '李四',
-      uploadTime: '2023-10-24 15:10',
-      missingCount: 0,
-      track: '新能源',
-      scenarios: ['新能源汽车', '海外市场', '供应链'],
-      tags: ['国内C9 985团队', '职业履历', '已盈利'],
-      revenue: '1亿+',
-      profit: '1000万+',
-      teamBackground: '国内C9 985'
-    },
-    {
-      id: 'BP-003',
-      name: '教育大模型方案',
-      fundingStage: '天使轮',
-      contact: '王五',
-      uploadTime: '2023-10-24 16:05',
-      missingCount: 5,
-      track: '人工智能',
-      scenarios: ['在线教育', 'AI教学', 'K12教育'],
-      tags: ['首次创业', '海外名校'],
-      revenue: '100万以下',
-      profit: '未盈利',
-      teamBackground: '海外名校'
-    },
-    {
-      id: 'BP-004',
-      name: '半导体芯片设计',
-      fundingStage: 'Pre-A',
-      contact: '赵六',
-      uploadTime: '2023-10-25 09:30',
-      missingCount: 1,
-      track: '半导体',
-      scenarios: ['芯片设计', 'AI芯片', '物联网'],
-      tags: ['职业履历', '连续创业', '国内C9 985团队'],
-      revenue: '1000-5000万',
-      profit: '未盈利',
-      teamBackground: '国内C9 985'
-    },
-    {
-      id: 'BP-005',
-      name: '智能医疗诊断系统',
-      fundingStage: 'A轮',
-      contact: '孙七',
-      uploadTime: '2023-10-25 10:15',
-      missingCount: 0,
-      track: '医疗科技',
-      scenarios: ['医疗影像', 'AI诊断', '远程医疗'],
-      tags: ['海外名校', '职业履历', '已有营收'],
-      revenue: '500-1000万',
-      profit: '100-500万',
-      teamBackground: '海外名校'
-    },
-    {
-      id: 'BP-006',
-      name: '元宇宙社交平台',
-      fundingStage: '种子轮',
-      contact: '周八',
-      uploadTime: '2023-10-25 11:00',
-      missingCount: 3,
-      track: '元宇宙',
-      scenarios: ['虚拟社交', '数字资产', '游戏娱乐'],
-      tags: ['首次创业', '国内C9 985团队'],
-      revenue: '100万以下',
-      profit: '未盈利',
-      teamBackground: '国内C9 985'
-    },
-    {
-      id: 'BP-007',
-      name: '5G智能通信基站',
-      fundingStage: 'C轮',
-      contact: '吴九',
-      uploadTime: '2023-10-25 13:20',
-      missingCount: 0,
-      track: '智能通信',
-      scenarios: ['5G网络', '基站设备', '物联网通信'],
-      tags: ['连续创业', '职业履历', '已盈利'],
-      revenue: '1亿+',
-      profit: '5000万+',
-      teamBackground: '职业履历'
-    },
-    {
-      id: 'BP-008',
-      name: '量子计算云平台',
-      fundingStage: 'Pre-A',
-      contact: '郑十',
-      uploadTime: '2023-10-25 14:45',
-      missingCount: 4,
-      track: '前沿科技',
-      scenarios: ['量子计算', '云计算', '科研服务'],
-      tags: ['海外名校', '首次创业'],
-      revenue: '100-500万',
-      profit: '未盈利',
-      teamBackground: '海外名校'
-    },
-    {
-      id: 'BP-009',
-      name: '企业级AI软件平台',
-      fundingStage: 'B轮',
-      contact: '钱十一',
-      uploadTime: '2023-10-26 09:00',
-      missingCount: 1,
-      track: '软件',
-      scenarios: ['企业服务', 'AI应用', 'SaaS平台'],
-      tags: ['连续创业', '职业履历', '已有营收'],
-      revenue: '5000万-1亿',
-      profit: '500-1000万',
-      teamBackground: '职业履历'
-    },
-    {
-      id: 'BP-010',
-      name: '具身智能家居系统',
-      fundingStage: 'A轮',
-      contact: '陈十二',
-      uploadTime: '2023-10-26 10:30',
-      missingCount: 2,
-      track: '具身智能',
-      scenarios: ['智能家居', '人机交互', '物联网'],
-      tags: ['国内C9 985团队', '首次创业', '已有营收'],
-      revenue: '1000-5000万',
-      profit: '未盈利',
-      teamBackground: '国内C9 985'
-    }
   ]
 };
 
@@ -264,23 +119,6 @@ export default function App() {
   const [drawerType, setDrawerType] = useState('');
   const [activeTenant, setActiveTenant] = useState<any>(null);
 
-  // 项目库筛选状态
-  const [selectedTrack, setSelectedTrack] = useState('全部赛道');
-  const [selectedStage, setSelectedStage] = useState('全部阶段');
-  const [selectedBackground, setSelectedBackground] = useState('全部背景');
-  const [projectSearchText, setProjectSearchText] = useState('');
-
-  // 项目库筛选逻辑
-  const filteredProjects = useMemo(() => {
-    return MOCK_DATA.bpProjects.filter(project => {
-      const matchTrack = selectedTrack === '全部赛道' || project.track === selectedTrack;
-      const matchStage = selectedStage === '全部阶段' || project.fundingStage === selectedStage;
-      const matchBackground = selectedBackground === '全部背景' || project.teamBackground === selectedBackground;
-      const matchSearch = projectSearchText === '' || project.name.toLowerCase().includes(projectSearchText.toLowerCase());
-      return matchTrack && matchStage && matchBackground && matchSearch;
-    });
-  }, [selectedTrack, selectedStage, selectedBackground, projectSearchText]);
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
@@ -297,7 +135,6 @@ export default function App() {
     { id: 'tenants', label: '租户管理', icon: Building2, hidden: !isAdmin },
     { id: 'users', label: '用户管理', icon: Users },
     { id: 'quota', label: '点数/配额管理', icon: Layers },
-    { id: 'projects', label: '项目库', icon: FolderOpen },
   ];
 
   if (!isLoggedIn) return <div className="p-10 text-center">系统已退出，请刷新页面重新登录。</div>;
@@ -572,208 +409,6 @@ export default function App() {
                     ))}
                   </tbody>
                 </table>
-            </div>
-          )}
-
-          {/* 项目库视图 */}
-          {currentMenu === 'projects' && (
-            <div className="space-y-6">
-              {/* 筛选栏 */}
-              <div className="bg-white rounded-[32px] border border-slate-100 shadow-sm p-6">
-                <div className="flex items-center gap-4 flex-wrap">
-                  <div className="flex items-center gap-2 text-slate-400">
-                    <Filter size={18} />
-                    <span className="text-xs font-black uppercase tracking-widest">筛选条件</span>
-                  </div>
-
-                  {/* 赛道筛选 */}
-                  <select
-                    value={selectedTrack}
-                    onChange={(e) => setSelectedTrack(e.target.value)}
-                    className="px-4 py-2 bg-slate-50 border-none rounded-xl text-sm font-bold outline-none cursor-pointer"
-                  >
-                    <option>全部赛道</option>
-                    <option>人工智能</option>
-                    <option>具身智能</option>
-                    <option>半导体</option>
-                    <option>软件</option>
-                    <option>新能源</option>
-                    <option>智能通信</option>
-                    <option>前沿科技</option>
-                    <option>医疗科技</option>
-                    <option>元宇宙</option>
-                  </select>
-
-                  {/* 融资阶段筛选 */}
-                  <select
-                    value={selectedStage}
-                    onChange={(e) => setSelectedStage(e.target.value)}
-                    className="px-4 py-2 bg-slate-50 border-none rounded-xl text-sm font-bold outline-none cursor-pointer"
-                  >
-                    <option>全部阶段</option>
-                    <option>种子轮</option>
-                    <option>天使轮</option>
-                    <option>Pre-A</option>
-                    <option>A轮</option>
-                    <option>B轮</option>
-                    <option>C轮</option>
-                  </select>
-
-                  {/* 团队背景筛选 */}
-                  <select
-                    value={selectedBackground}
-                    onChange={(e) => setSelectedBackground(e.target.value)}
-                    className="px-4 py-2 bg-slate-50 border-none rounded-xl text-sm font-bold outline-none cursor-pointer"
-                  >
-                    <option>全部背景</option>
-                    <option>海外名校</option>
-                    <option>国内C9 985</option>
-                    <option>职业履历</option>
-                  </select>
-
-                  {/* 搜索框 */}
-                  <div className="relative flex-1 min-w-[200px]">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
-                    <input
-                      type="text"
-                      placeholder="搜索项目名称..."
-                      value={projectSearchText}
-                      onChange={(e) => setProjectSearchText(e.target.value)}
-                      className="pl-12 pr-6 py-2 bg-slate-50 border-none rounded-xl text-sm font-medium w-full outline-none"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* 结果数量提示 */}
-              {(selectedTrack !== '全部赛道' || selectedStage !== '全部阶段' || selectedBackground !== '全部背景' || projectSearchText !== '') && (
-                <div className="flex items-center justify-between bg-indigo-50 rounded-2xl p-4">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-bold text-indigo-600">找到 {filteredProjects.length} 个项目</span>
-                  </div>
-                  <button
-                    onClick={() => {
-                      setSelectedTrack('全部赛道');
-                      setSelectedStage('全部阶段');
-                      setSelectedBackground('全部背景');
-                      setProjectSearchText('');
-                    }}
-                    className="text-xs font-black text-indigo-600 hover:text-indigo-800 uppercase tracking-widest"
-                  >
-                    清除筛选
-                  </button>
-                </div>
-              )}
-
-              {/* 项目卡片网格 */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredProjects.map(project => (
-                  <div key={project.id} className="bg-white rounded-[32px] border border-slate-100 shadow-sm hover:shadow-xl transition-all overflow-hidden group">
-                    {/* 项目头部 */}
-                    <div className="p-6 border-b border-slate-50">
-                      <div className="flex justify-between items-start mb-3">
-                        <h3 className="font-black text-lg text-slate-900 group-hover:text-indigo-600 transition-colors">{project.name}</h3>
-                        {project.missingCount > 0 && (
-                          <div className="flex items-center gap-1 px-2 py-1 bg-amber-50 rounded-lg">
-                            <AlertCircle size={14} className="text-amber-600" />
-                            <span className="text-[10px] font-black text-amber-600">{project.missingCount}项缺失</span>
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-2 mb-3">
-                        <span className="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-bold">{project.track}</span>
-                        <span className="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-xs font-bold">{project.fundingStage}</span>
-                      </div>
-                      <p className="text-xs text-slate-400 font-mono">{project.id}</p>
-                    </div>
-
-                    {/* 项目信息 */}
-                    <div className="p-6 space-y-3">
-                      <div className="flex justify-between text-xs">
-                        <span className="text-slate-400 font-bold">联系人</span>
-                        <span className="text-slate-900 font-bold">{project.contact}</span>
-                      </div>
-                      <div className="flex justify-between text-xs">
-                        <span className="text-slate-400 font-bold">上传时间</span>
-                        <span className="text-slate-900 font-bold">{project.uploadTime}</span>
-                      </div>
-                      <div className="flex justify-between text-xs">
-                        <span className="text-slate-400 font-bold">营收规模</span>
-                        <span className="text-slate-900 font-bold">{project.revenue}</span>
-                      </div>
-                      <div className="flex justify-between text-xs">
-                        <span className="text-slate-400 font-bold">盈利情况</span>
-                        <span className="text-slate-900 font-bold">{project.profit}</span>
-                      </div>
-
-                      {/* 场景标签 */}
-                      <div className="pt-3 border-t border-slate-50">
-                        <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-2">应用场景</p>
-                        <div className="flex flex-wrap gap-1.5">
-                          {project.scenarios.map((scenario, idx) => (
-                            <span key={idx} className="px-2 py-1 bg-blue-50 text-blue-600 rounded-lg text-[10px] font-bold">
-                              {scenario}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* 事实标签 */}
-                      <div className="pt-3 border-t border-slate-50">
-                        <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-2">事实标签</p>
-                        <div className="flex flex-wrap gap-1.5">
-                          {project.tags.map((tag, idx) => (
-                            <span key={idx} className="px-2 py-1 bg-purple-50 text-purple-600 rounded-lg text-[10px] font-bold flex items-center gap-1">
-                              <Tag size={10} />
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* 操作按钮 */}
-                    <div className="p-6 pt-0 flex gap-2">
-                      <button className="flex-1 py-3 bg-indigo-50 text-indigo-600 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all">
-                        查看详情
-                      </button>
-                      <button className="flex-1 py-3 bg-slate-50 text-slate-600 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-slate-600 hover:text-white transition-all">
-                        下载BP
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* 统计信息 */}
-              <div className="bg-white rounded-[32px] border border-slate-100 shadow-sm p-8">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                  <div className="text-center">
-                    <div className="text-3xl font-black text-indigo-600 mb-2">{filteredProjects.length}</div>
-                    <div className="text-xs text-slate-400 font-black uppercase tracking-widest">
-                      {selectedTrack !== '全部赛道' || selectedStage !== '全部阶段' || selectedBackground !== '全部背景' || projectSearchText !== '' ? '筛选结果' : '总项目数'}
-                    </div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-black text-emerald-600 mb-2">
-                      {filteredProjects.filter(p => p.missingCount === 0).length}
-                    </div>
-                    <div className="text-xs text-slate-400 font-black uppercase tracking-widest">完整BP</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-black text-blue-600 mb-2">
-                      {new Set(filteredProjects.map(p => p.track)).size}
-                    </div>
-                    <div className="text-xs text-slate-400 font-black uppercase tracking-widest">覆盖赛道</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-black text-purple-600 mb-2">
-                      {filteredProjects.filter(p => p.profit !== '未盈利').length}
-                    </div>
-                    <div className="text-xs text-slate-400 font-black uppercase tracking-widest">已盈利项目</div>
-                  </div>
-                </div>
-              </div>
             </div>
           )}
         </div>
