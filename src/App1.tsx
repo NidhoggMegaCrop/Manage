@@ -334,6 +334,7 @@ const MOCK_EXTENDED_PROJECTS: Project[] = [
     profit: "200万",
     funding: "A轮 5000万",
     uploaderId: "U-4411",
+    uploaderName: "周经理",
     contact: "136****7777",
     fileName: "UAM_Control.pdf",
     submitTime: "2024-01-19",
@@ -356,6 +357,7 @@ const MOCK_EXTENDED_PROJECTS: Project[] = [
     profit: "-200万",
     funding: "种子轮 300万",
     uploaderId: "U-5522",
+    uploaderName: "赵律师",
     contact: "133****9999",
     fileName: "LegalAI.pdf",
     submitTime: "2024-01-20",
@@ -950,8 +952,7 @@ const PromptOptimizer = ({
 
   const handleSend = () => {
     if (!input.trim()) return;
-    const newMsgs = [...messages, { role: "user", content: input }];
-    // @ts-ignore
+    const newMsgs = [...messages, { role: "user" as const, content: input }];
     setMessages(newMsgs);
     setInput("");
 
@@ -960,7 +961,7 @@ const PromptOptimizer = ({
         setMessages([
           ...newMsgs,
           {
-            role: "ai",
+            role: "ai" as const,
             content: "已解析需求。正在结合上下文构建 Skill 配置...",
           },
         ]);
