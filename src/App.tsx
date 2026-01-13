@@ -54,8 +54,8 @@ const MOCK_DATA = {
 };
 
 // --- 子组件: 状态标签 ---
-const StatusBadge = ({ status }) => {
-  const styles = {
+const StatusBadge = ({ status }: { status: string }) => {
+  const styles: Record<string, string> = {
     '已完成': 'bg-emerald-100 text-emerald-700',
     '支付成功': 'bg-emerald-100 text-emerald-700',
     '启用': 'bg-emerald-100 text-emerald-700',
@@ -75,7 +75,13 @@ const StatusBadge = ({ status }) => {
 };
 
 // --- 子组件: 抽屉式表单 ---
-const Drawer = ({ isOpen, onClose, title, children, onConfirm }) => {
+const Drawer = ({ isOpen, onClose, title, children, onConfirm }: {
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
+  children: React.ReactNode;
+  onConfirm?: () => void
+}) => {
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 z-50 flex justify-end">
@@ -106,16 +112,16 @@ export default function App() {
 
   // 菜单状态
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const userMenuRef = useRef(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
 
   // 表单状态
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerType, setDrawerType] = useState('');
-  const [activeTenant, setActiveTenant] = useState(null);
+  const [activeTenant, setActiveTenant] = useState<any>(null);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
         setUserMenuOpen(false);
       }
     };
@@ -382,3 +388,68 @@ export default function App() {
                <table className="w-full text-left">
                   <thead className="bg-slate-50/50 text-[10px] text-slate-400 font-black uppercase tracking-widest">
                     <tr>
+                      <th className="px-8 py-5">用户编号</th>
+                      <th className="px-8 py-5">姓名</th>
+                      <th className="px-8 py-5">角色</th>
+                      <th className="px-8 py-5">所属租户</th>
+                      <th className="px-8 py-5">邮箱</th>
+                      <th className="px-8 py-5">状态</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-50">
+                    {MOCK_DATA.users.map(user => (
+                      <tr key={user.id} className="hover:bg-slate-50/50 transition-colors">
+                        <td className="px-8 py-6 font-mono text-xs text-slate-400">{user.id}</td>
+                        <td className="px-8 py-6 font-bold">{user.name}</td>
+                        <td className="px-8 py-6 text-sm text-slate-600">{user.role}</td>
+                        <td className="px-8 py-6 text-sm text-slate-500">{user.tenant}</td>
+                        <td className="px-8 py-6 text-xs text-slate-400">{user.email}</td>
+                        <td className="px-8 py-6"><StatusBadge status={user.status} /></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+            </div>
+          )}
+        </div>
+      </main>
+
+      {/* 抽屉表单 */}
+      <Drawer
+        isOpen={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        title={drawerType === 'recharge' ? '增加点数配额' : '编辑'}
+        onConfirm={() => {
+          console.log('保存成功');
+        }}
+      >
+        {drawerType === 'recharge' && activeTenant && (
+          <div className="space-y-6">
+            <div>
+              <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-3">租户名称</label>
+              <div className="text-lg font-bold text-slate-900">{activeTenant.name}</div>
+            </div>
+            <div>
+              <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-3">充值点数</label>
+              <input
+                type="number"
+                placeholder="请输入充值点数"
+                className="w-full px-6 py-4 border-2 border-slate-200 rounded-2xl outline-none focus:border-indigo-500 transition-colors text-lg font-bold"
+              />
+            </div>
+            <div className="p-6 bg-indigo-50 rounded-2xl">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-xs font-black text-indigo-400 uppercase">当前配额</span>
+                <span className="text-xl font-black text-indigo-600">{activeTenant.quotaTotal} 点</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-xs font-black text-indigo-400 uppercase">已使用</span>
+                <span className="text-xl font-black text-indigo-600">{activeTenant.quotaUsed} 点</span>
+              </div>
+            </div>
+          </div>
+        )}
+      </Drawer>
+    </div>
+  );
+}
