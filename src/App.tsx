@@ -262,6 +262,7 @@ const MOCK_EXTENDED_PROJECTS: Project[] = [
     profit: "200万",
     funding: "A轮 5000万",
     uploaderId: "U-4411",
+    uploaderName: "周经理",
     contact: "136****7777",
     fileName: "UAM_Control.pdf",
     submitTime: "2024-01-19",
@@ -284,6 +285,7 @@ const MOCK_EXTENDED_PROJECTS: Project[] = [
     profit: "-200万",
     funding: "种子轮 300万",
     uploaderId: "U-5522",
+    uploaderName: "赵律师",
     contact: "133****9999",
     fileName: "LegalAI.pdf",
     submitTime: "2024-01-20",
@@ -874,8 +876,7 @@ const PromptOptimizer = ({
 
   const handleSend = () => {
     if (!input.trim()) return;
-    const newMsgs = [...messages, { role: "user", content: input }];
-    // @ts-ignore
+    const newMsgs = [...messages, { role: "user" as const, content: input }];
     setMessages(newMsgs);
     setInput("");
 
@@ -884,7 +885,7 @@ const PromptOptimizer = ({
         setMessages([
           ...newMsgs,
           {
-            role: "ai",
+            role: "ai" as const,
             content: "已解析需求。正在结合上下文构建 Skill 配置...",
           },
         ]);
@@ -1837,7 +1838,7 @@ export default function App() {
                         <td className="px-8 py-6 font-bold">{task.fileName}</td>
                         {isAdmin && <td className="px-8 py-6 text-sm text-slate-500">{task.tenant}</td>}
                         <td className="px-8 py-6 text-sm text-slate-600">{task.user}</td>
-                        <td className="px-8 py-6"><StatusBadge status={task.status} /></td>
+                        <td className="px-8 py-6"><SmartStatusBadge status={task.status} /></td>
                         <td className="px-8 py-6 text-xs text-slate-400">{task.time}</td>
                         <td className="px-8 py-6 text-right">
                           <div className="flex justify-end gap-3">
@@ -1885,7 +1886,7 @@ export default function App() {
                           {order.amount.toLocaleString()} <span className="text-[10px] font-bold text-slate-400">点</span>
                         </td>
                         <td className="px-8 py-6 text-slate-500">{order.tenant}</td>
-                        <td className="px-8 py-6"><StatusBadge status={order.status} /></td>
+                        <td className="px-8 py-6"><SmartStatusBadge status={order.status} /></td>
                         <td className="px-8 py-6 text-slate-400 text-xs">{order.time}</td>
                       </tr>
                     ))}
@@ -1902,7 +1903,7 @@ export default function App() {
                   <div key={tenant.id} className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-2xl transition-all group">
                     <div className="flex justify-between items-start mb-6">
                       <div className="bg-indigo-50 p-4 rounded-2xl text-indigo-600"><Building2 size={28} /></div>
-                      <StatusBadge status={tenant.status} />
+                      <SmartStatusBadge status={tenant.status} />
                     </div>
                     <h3 className="font-black text-xl mb-1">{tenant.name}</h3>
                     <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-6">{tenant.id}</p>
@@ -1970,7 +1971,7 @@ export default function App() {
                         <td className="px-8 py-6 text-sm text-slate-600">{user.role}</td>
                         <td className="px-8 py-6 text-sm text-slate-500">{user.tenant}</td>
                         <td className="px-8 py-6 text-xs text-slate-400">{user.email}</td>
-                        <td className="px-8 py-6"><StatusBadge status={user.status} /></td>
+                        <td className="px-8 py-6"><SmartStatusBadge status={user.status} /></td>
                       </tr>
                     ))}
                   </tbody>
